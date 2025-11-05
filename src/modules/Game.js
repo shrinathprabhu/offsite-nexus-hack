@@ -5,6 +5,7 @@ import sound from "./Sound";
 import * as levelCreator from "../libs/levelCreator.js";
 import * as utils from "../libs/utils";
 import { getUnifiedBalances } from "../nexus/nexus.js";
+import Decimal from "decimal.js";
 
 const BLUE_SKY_COLOR = 0x64b0ff;
 const PINK_SKY_COLOR = 0xfbb4d4;
@@ -158,7 +159,7 @@ class Game {
         });
       }
 
-      this.stage.hud.unifiedBalance = `${val} USDT`;
+      this.stage.hud.unifiedBalance = `Balance: ${val} USDT`;
     }
   }
 
@@ -197,7 +198,7 @@ class Game {
         });
       }
 
-      this.stage.hud.score = val;
+      this.stage.hud.score = `Earned: ${val} USDT`;
     }
   }
 
@@ -642,7 +643,12 @@ class Game {
   updateScore(ducksShot) {
     this.ducksShot += ducksShot;
     this.ducksShotThisWave += ducksShot;
-    this.score += ducksShot * this.level.pointsPerDuck;
+    this.score = new Decimal(ducksShot)
+      .mul(this.level.pointsPerDuck)
+      .mul(this.unifiedBalance)
+      .add(this.score)
+      .toDecimalPlaces(6)
+      .toFixed();
   }
 
   animate() {
