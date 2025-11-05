@@ -4,7 +4,7 @@ import Stage from "./Stage";
 import sound from "./Sound";
 import * as levelCreator from "../libs/levelCreator.js";
 import * as utils from "../libs/utils";
-import { getUnifiedBalances } from "../nexus/nexus.js";
+import { getUnifiedBalances, isNexusInitialized } from "../nexus/nexus.js";
 import Decimal from "decimal.js";
 
 const BLUE_SKY_COLOR = 0x64b0ff;
@@ -159,7 +159,11 @@ class Game {
         });
       }
 
-      this.stage.hud.unifiedBalance = `Balance: ${val} USDT`;
+      if (isNexusInitialized()) {
+        this.stage.hud.unifiedBalance = `Balance: ${val} USDT`;
+      } else {
+        this.stage.hud.unifiedBalance = "Guest";
+      }
     }
   }
 
@@ -198,7 +202,11 @@ class Game {
         });
       }
 
-      this.stage.hud.score = `Earned: ${val} USDT`;
+      if (isNexusInitialized()) {
+        this.stage.hud.score = `Earned: ${val} USDT`;
+      } else {
+        this.stage.hud.score = `Could've Earned: ${val} USDT`;
+      }
     }
   }
 
@@ -645,7 +653,7 @@ class Game {
     this.ducksShotThisWave += ducksShot;
     this.score = new Decimal(ducksShot)
       .mul(this.level.pointsPerDuck)
-      .mul(this.unifiedBalance)
+      .mul(isNexusInitialized() ? this.unifiedBalance : 10)
       .add(this.score)
       .toDecimalPlaces(6)
       .toFixed();
