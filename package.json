@@ -50,6 +50,7 @@
     "webpack-dev-server": "^4.15.0"
   },
   "dependencies": {
-    "@avail-project/nexus-core": "^0.0.2"
+    "@avail-project/nexus-core": "^0.0.2",
+    "viem": "^2.38.6"
   }
 }

@@ -4,7 +4,7 @@ import Stage from "./Stage";
 import sound from "./Sound";
 import * as levelCreator from "../libs/levelCreator.js";
 import * as utils from "../libs/utils";
-import { getUnifiedBalances } from "../nexus/nexus.js";
+import { getUnifiedBalances, isInitialized } from "../nexus/nexus.js";
 
 const BLUE_SKY_COLOR = 0x64b0ff;
 const PINK_SKY_COLOR = 0xfbb4d4;
@@ -158,7 +158,11 @@ class Game {
         });
       }
 
-      this.stage.hud.unifiedBalance = `${val} USDT`;
+      if (isInitialized()) {
+        this.stage.hud.unifiedBalance = `${val} USDT`;
+      } else {
+        this.stage.hud.unifiedBalance = `GUEST`;
+      }
     }
   }
 
@@ -293,6 +297,7 @@ class Game {
     // this.addPauseLink();
     this.addMuteLink();
     this.addFullscreenLink();
+    this.addGoogleLink();
     this.bindEvents();
     this.startLevel();
     this.animate();
@@ -351,6 +356,25 @@ class Game {
     //   },
     // });
     // this.stage.hud.levelCreatorLink = "level creator (c)";
+  }
+
+  addGoogleLink() {
+    // this.stage.hud.createTextBox("googleLink", {
+    //   style: {
+    //     fontFamily: "Arial",
+    //     fontSize: "15px",
+    //     align: "right",
+    //     fill: "white",
+    //   },
+    //   location: Stage.googleLinkBoxLocation(),
+    //   anchor: {
+    //     x: 1,
+    //     y: 0,
+    //   },
+    // });
+    // this.stage.hud.googleLink = "Google";
+    // this.stage.hud.googleLinkTextBox.eventMode = "static";
+    // this.stage.hud.googleLinkTextBox.cursor = "pointer";
   }
 
   bindEvents() {
@@ -619,6 +643,11 @@ class Game {
 
     if (this.stage.clickedLevelCreatorLink(clickPoint)) {
       this.openLevelCreator();
+      return;
+    }
+
+    if (this.stage.clickedGoogleLink(clickPoint)) {
+      window.open("https://google.com", "_blank");
       return;
     }
 

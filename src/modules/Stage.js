@@ -28,6 +28,7 @@ const HUD_LOCATIONS = {
   FULL_SCREEN_LINK: new Point(MAX_X - 130, MAX_Y - 10),
   PAUSE_LINK: new Point(MAX_X - 318, MAX_Y - 10),
   MUTE_LINK: new Point(MAX_X - 236, MAX_Y - 10),
+  GOOGLE_LINK: new Point(MAX_X - 11, 80),
   GAME_STATUS: new Point(MAX_X / 2, MAX_Y * 0.45),
   REPLAY_BUTTON: new Point(MAX_X / 2, MAX_Y * 0.56),
   BULLET_STATUS: new Point(10, 10),
@@ -100,6 +101,10 @@ class Stage extends Container {
 
   static levelCreatorLinkBoxLocation() {
     return HUD_LOCATIONS.LEVEL_CREATOR_LINK;
+  }
+
+  static googleLinkBoxLocation() {
+    return HUD_LOCATIONS.GOOGLE_LINK;
   }
 
   static replayButtonLocation() {
@@ -281,6 +286,22 @@ class Stage extends Container {
         scaledClickPoint.y,
         HUD_LOCATIONS.LEVEL_CREATOR_LINK.y - 30,
         HUD_LOCATIONS.LEVEL_CREATOR_LINK.y + 10
+      )
+    );
+  }
+
+  clickedGoogleLink(clickPoint) {
+    const scaledClickPoint = this.getScaledClickLocation(clickPoint);
+    return (
+      inRange(
+        scaledClickPoint.x,
+        HUD_LOCATIONS.GOOGLE_LINK.x - 80,
+        HUD_LOCATIONS.GOOGLE_LINK.x
+      ) &&
+      inRange(
+        scaledClickPoint.y,
+        HUD_LOCATIONS.GOOGLE_LINK.y - 5,
+        HUD_LOCATIONS.GOOGLE_LINK.y + 20
       )
     );
   }
