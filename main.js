@@ -1,9 +1,14 @@
-import Game from './src/modules/Game';
+import Game from "./src/modules/Game";
+import { initNexus } from "./src/nexus/nexus";
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
+    let game = new Game({
+      spritesheet: "sprites.json",
+    }).load();
 
-  let game = new Game({
-    spritesheet: 'sprites.json'
-  }).load();
-
-}, false);
+    initNexus(window.ethereum);
+  },
+  false
+);

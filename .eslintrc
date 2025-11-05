@@ -1,9 +1,12 @@
 {
-  "extends": [
-    "./eslint/eslint-defaults.json",
-    "./eslint/eslint-babel.json"
-  ],
-  "env" : {
+  "extends": ["./eslint/eslint-defaults.json", "./eslint/eslint-babel.json"],
+  "env": {
     "browser": true
+  },
+  "settings": {
+    "import/ignore": ["node_modules"]
+  },
+  "rules": {
+    "import/no-unresolved": [2, { "ignore": ["@avail-project/*"] }]
   }
 }

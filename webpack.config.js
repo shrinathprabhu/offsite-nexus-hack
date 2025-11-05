@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   context: __dirname,
@@ -42,6 +43,12 @@ module.exports = {
   resolve: {
     modules: ['node_modules'],
     extensions: ['.js', '.min.js'],
+    fallback: {
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+      buffer: require.resolve('buffer/'),
+      vm: false,
+    },
   },
   devServer: {
     static: {
@@ -51,4 +58,10 @@ module.exports = {
     port: 8080,
     hot: true,
   },
+  plugins: [
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+      process: 'process/browser.js',
+    }),
+  ],
 };
